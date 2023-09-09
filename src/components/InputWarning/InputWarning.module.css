@@ -1,0 +1,3 @@
+[data-error=true] .register__form-warning {
+  color: var(--warning-color);
+}

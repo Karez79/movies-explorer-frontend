@@ -1,1 +1,1 @@
-# movies-explorer-frontend
+Шаблон макета: dark 5
