@@ -11,11 +11,11 @@ const Layout = () => {
     let currentPage = location.pathname.substring(1);
     if (currentPage === '') currentPage = 'main';
     let showHeader = currentPage !== '404' &&
-        currentPage !== 'login' &&
-        currentPage !== 'register';
+        currentPage !== 'signin' &&
+        currentPage !== 'signup';
     let showFooter = currentPage !== '404' &&
-        currentPage !== 'login' &&
-        currentPage !== 'register' &&
+        currentPage !== 'signin' &&
+        currentPage !== 'signup' &&
         currentPage !== 'profile';
         
     return (

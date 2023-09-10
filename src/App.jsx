@@ -16,8 +16,8 @@ const App = () => {
                 <Route index element={<MainPage />} />
                 <Route path="/movies" element={<MoviesPage />} />
                 <Route path="/saved-movies" element={<SavedMoviesPage />} />
-                <Route path="/register" element={<RegisterPage />} />
-                <Route path="/login" element={<LoginPage />} />
+                <Route path="/signup" element={<RegisterPage />} />
+                <Route path="/signin" element={<LoginPage />} />
                 <Route path="/profile" element={<ProfilePage />} />
                 <Route path='/404' element={<PageNotFound />} />
                 <Route path="*" element={<Navigate to="/404" replace /> } />

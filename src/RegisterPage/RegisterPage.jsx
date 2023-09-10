@@ -22,13 +22,13 @@ const RegisterPage = () => {
   }
 
   return (
-    <main className={`${styles.register} centered container`}>
-      <header className={styles.header}>
+    <main className={`${styles.register} centered container container--register`}>
+      <div className={styles.header}>
         <Link to="/" className={styles.header__logo}>
           <Logo />
         </Link>
         <h1 className={styles.header__title}>Добро пожаловать!</h1>
-      </header>
+      </div>
       <form className={styles.register__form} ref={formRef}>
         <label
           htmlFor='name-input'
@@ -40,6 +40,10 @@ const RegisterPage = () => {
             name="name"
             id="name-input"
             ref={nameInputRef}
+            required={true}
+            min={3}
+            max={24}
+            placeholder='Виталий'
             className={styles['register__form-input']} />
           {false && <InputWarning />}
         </label>
@@ -53,6 +57,8 @@ const RegisterPage = () => {
             name="email"
             id="email-input"
             ref={emailInputRef}
+            required={true}
+            placeholder='pochta@yandex.ru'
             className={styles['register__form-input']} />
           {false && <InputWarning />}
         </label>
@@ -66,6 +72,10 @@ const RegisterPage = () => {
             name="password"
             id="password-input"
             ref={passwordInputRef}
+            required={true}
+            min={6}
+            max={20}
+            placeholder='g8429jfweribzc'
             className={styles['register__form-input']} />
           {true && <InputWarning />}
         </label>
@@ -77,7 +87,7 @@ const RegisterPage = () => {
         </button>
         <p className={styles['register__form-login']}>
           Уже зарегистрированы?
-          <Link to="/login" className={styles['register__form-loginButton']}>Войти</Link>
+          <Link to="/signin" className={styles['register__form-loginButton']}>Войти</Link>
         </p>
       </form>
     </main>

@@ -33,6 +33,11 @@
 .register__form-label {
   font-size: 10px;
   color: var(--secondary-text-color);
+  margin-bottom: 20px;
+}
+
+.register__form-label:last-of-type {
+  margin-bottom: 0;
 }
 
 .register__form-input {
@@ -42,11 +47,14 @@
   width: 100%;
   padding: 15px;
   margin-top: 10px;
-  margin-bottom: 20px;
 
   border-radius: 8px;
   border: none;
   background-color: #2F2F2F;
+}
+
+.register__form-input:focus-visible {
+  outline: 1px solid var(--secondary-accent-color);
 }
 
 [data-error=true] .register__form-input {
@@ -54,7 +62,9 @@
 }
 
 .register__form-submitButton {
+  font-size: 14px;
   font-weight: 500;
+  letter-spacing: 0.04em;
   color: inherit;
 
   padding: 14px;
@@ -66,7 +76,8 @@
   transition: opacity 0.3s ease-in-out;
 }
 
-.register__form-submitButton:hover {
+.register__form-submitButton:hover,
+.register__form-submitButton:focus-visible {
   opacity: 0.7;
 }
 
@@ -86,7 +97,7 @@
 @media (920px >= width > 480px) {
   .header {
     padding-top: 232px;
-    padding-bottom: 80px;
+    padding-bottom: 40px;
   }
   .register__form {
     padding-bottom: 232px;
@@ -110,6 +121,7 @@
     padding-bottom: 30px;
   }
   .register__form-submitButton {
+    font-size: 12px;
     padding: 15px;
     margin-bottom: 14px;
     margin-top: auto;

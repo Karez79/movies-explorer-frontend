@@ -32,7 +32,6 @@
 
 .movie__name {
   font-weight: 500;
-  line-height: initial;
   margin-right: 24px;
   flex-grow: 1;
 }
@@ -41,11 +40,11 @@
   width: 16px;
   height: 16px;
   display: block;
-  background-color: #313131;
+  cursor: pointer;
   border-radius: 100%;
   border: 2px solid var(--primary-text-color);
+  background-color: #313131;
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.09);
-  cursor: pointer;
   transition: background-color 0.2s;
 }
 
@@ -60,14 +59,19 @@
 .removeButton {
   width: 16px;
   height: 16px;
-  background-color: transparent;
   cursor: pointer;
+  border-radius: 100%;
+  background-color: transparent;
+}
+
+.removeButton:focus-visible {
+  outline: 1px solid var(--primary-text-color);
 }
 
 .movie__length {
   font-size: 11px;
-  line-height: initial;
   color: var(--secondary-text-color);
+  display: block;
 }
 
 /* tablet */

@@ -172,11 +172,11 @@ const MoviesCardList = ({ device }) => {
   }
 
   return (
-    <div className={`${styles.movies__cardList} container`}>
+    <section className={`${styles.movies__cardList} container ${device === 'mobile' ? 'container--promo' : ''}`}>
       {
         movies ? cards : <h2>Фильмов не найдено!</h2>
       }
-    </div>
+    </section>
   )
 }
 

@@ -50,6 +50,7 @@
 }
 
 .aboutMe__content-link {
+  font-size: 14px;
   margin-top: auto;
 }
 
@@ -71,7 +72,10 @@
   .aboutMe {
     padding-top: 90px;
     padding-bottom: 90px;
-  }  
+  }
+  .aboutMe__divider {
+    margin-bottom: 70px;
+  }
   .aboutMe__content {
     column-gap: 49px;
   }
@@ -112,6 +116,13 @@
 @media (width <= 480px) {
   .aboutMe {
     padding: 70px 0;
+  }
+  .aboutMe__title {
+    font-size: 18px;
+    margin-bottom: 28px;
+  }
+  .aboutMe__divider {
+    margin-bottom: 60px;
   }
   .aboutMe__content {
     align-items: center;

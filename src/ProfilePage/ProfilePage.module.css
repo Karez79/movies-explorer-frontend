@@ -80,6 +80,7 @@ td {
   }
   .profile__title {
     margin-bottom: 80px;
+    height: 29px;
   }
   .profile__table {
     max-width: 320px;

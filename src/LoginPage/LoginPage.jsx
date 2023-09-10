@@ -19,13 +19,13 @@ const LoginPage = () => {
   }
   
   return (
-    <main className={`${styles.register} centered container`}>
-      <header className={styles.header}>
+    <main className={`${styles.register} centered container container--register`}>
+      <div className={styles.header}>
         <Link to="/" className={styles.header__logo}>
           <Logo />
         </Link>
         <h1 className={styles.header__title}>Рады видеть!</h1>
-      </header>
+      </div>
       <form className={styles.register__form} ref={formRef}>
         <label
           htmlFor='email-input'
@@ -36,7 +36,9 @@ const LoginPage = () => {
             type="email"
             name="email"
             id="email-input"
+            required={true}
             ref={emailInputRef}
+            placeholder='Виталий'
             className={styles['register__form-input']} />
           {false && <InputWarning />}
         </label>
@@ -50,6 +52,10 @@ const LoginPage = () => {
             name="password"
             id="password-input"
             ref={passwordInputRef}
+            required={true}
+            min={6}
+            max={20}
+            placeholder='g8429jfweribzc'
             className={styles['register__form-input']} />
           {false && <InputWarning />}
         </label>
@@ -62,7 +68,7 @@ const LoginPage = () => {
         {/* Можно вынести в отдельный компонент и в зависимости от модификатора\страницы выводить разные данные */}
         <p className={styles['register__form-login']}>
           Ещё не зарегистрированы?
-          <Link to="/register" className={styles['register__form-loginButton']}>Регистрация</Link>
+          <Link to="/signup" className={styles['register__form-loginButton']}>Регистрация</Link>
         </p>
       </form>
     </main>

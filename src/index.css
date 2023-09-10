@@ -95,6 +95,7 @@ button {
 
 ul {
   list-style-position: inside;
+  list-style: none;
   padding: 0;
 }
 
@@ -144,6 +145,7 @@ h5 {
     padding-left: 50px;
   }
 }
+
 /* mobile */
 @media (width <= 480px) {
   .container {
@@ -155,10 +157,18 @@ h5 {
     padding-right: 30px;
     padding-left: 30px;
   }
+  .container--register {
+    padding-right: 30px;
+    padding-left: 30px;
+  }
   .container--sub {
     max-width: 480px;
     padding-right: 18px;
     padding-left: 18px;
+  }
+  .container--promo {
+    padding-right: 10px;
+    padding-left: 10px;
   }
   .hideOnMobile {
     display: none;

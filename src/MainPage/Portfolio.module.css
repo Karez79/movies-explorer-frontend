@@ -16,7 +16,13 @@
   row-gap: 20px;
 }
 
+.portfolio__links > li:not(:last-child) {
+  padding-bottom: 19px;
+  border-bottom: 1px solid #424242;
+}
+
 .portfolio__link {
+  height: 50px;
   font-size: 30px;
   line-height: 50px;
   letter-spacing: -0.04em;
@@ -26,12 +32,8 @@
   align-items: center;  
 }
 
-.portfolio__link:not(:last-child) {
-  padding-bottom: 19px;
-  border-bottom: 1px solid #424242;
-}
-
 .portfolio__link-arrow {
+  height: 50px;
   font-size: 30px;
   line-height: 60px;
   letter-spacing: -0.04em;
@@ -59,6 +61,7 @@
   }
   .portfolio__link,
   .portfolio__link-arrow {
+    height: auto;
     font-size: 18px;
     line-height: 28px;
   }

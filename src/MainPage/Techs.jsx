@@ -1,16 +1,16 @@
 import styles from './Techs.module.css';
 
-const Techs = ({isGadgets}) => {
+const Techs = ({isTablet}) => {
   return (
     <section className={styles.techs}>
-      <div className={`container ${isGadgets ? 'container--sub' : ''}`}>
+      <div className={`container ${isTablet ? 'container--sub' : ''}`}>
         <h2 className={styles.techs__title}>Технологии</h2>
         <div className={styles.techs__divider}></div>
         <div className={styles.techs__content}>
-          <p className={styles['techs__content-title']}>7 технологий</p>
+          <h3 className={styles['techs__content-title']}>7 технологий</h3>
           <p className={styles['techs__content-text']}>
-            На курсе веб-разработки мы освоили технологии, которые<br />
-            применили в дипломном проекте.
+            На курсе веб-разработки мы освоили технологии, которые применили <br className='hideOnMobile'/>
+            в дипломном проекте.
           </p>
         </div>
         <ul className={styles.techs__list}>

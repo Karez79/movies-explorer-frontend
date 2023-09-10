@@ -21,6 +21,7 @@
 /* mobile */
 @media (width <= 480px) {
   .loadMoreButton {
+    max-width: 240px;
     padding: 10px 60px;
   }
 }

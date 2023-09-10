@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useGadgets } from '../hooks/useDevice';
+import { useGadgets, useMobileDetect, useTabletDetect } from '../hooks/useDevice';
 import Preloader from '../components/Preloader/Preloader';
 import Promo from './Promo';
 import AboutProject from './AboutProject';
@@ -9,7 +9,9 @@ import styles from './MainPage.module.css';
 
 const Main = () => {
     const isGadgets = useGadgets();
-    const [isLoaded, setIsLoaded] = useState(false);
+    const isMobile = useMobileDetect();
+    const isTablet = useTabletDetect();
+    const [isLoaded, setIsLoaded] = useState(true);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -23,10 +25,15 @@ const Main = () => {
     return (
         !isLoaded ? <Preloader /> :
         <main className={styles.main}>
-            <Promo isGadgets={isGadgets} aboutProjectSection={aboutProjectSection} />
+            <Promo
+                isGadgets={isGadgets}
+                isMobile={isMobile}
+                isTablet={isTablet}
+                aboutProjectSection={aboutProjectSection}
+            />
             <AboutProject ref={aboutProjectSection} isGadgets={isGadgets} />
-            <Techs isGadgets={isGadgets} />
-            <AboutMe isGadgets={isGadgets} />
+            <Techs isTablet={isTablet} />
+            <AboutMe isTablet={isTablet} />
         </main>
     );
 };

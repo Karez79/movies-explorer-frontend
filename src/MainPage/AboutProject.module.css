@@ -25,6 +25,7 @@
 
 .aboutProject__content-title {
   font-size: 20px;
+  font-weight: 400;
   letter-spacing: -0.04em;
   margin-bottom: 26px;
 }
@@ -43,14 +44,18 @@
   row-gap: 14px;
 }
 
+.aboutProject__chart span:nth-child(1),
+.aboutProject__chart span:nth-child(2) {
+  height: 36px;
+  padding: 9px 14px;
+}
+
 .aboutProject__chart span:nth-child(1) {
   color: var(--alter-text-color);
-  padding: 9px 14px;
   background-color: var(--primary-accent-color);
 }
 
 .aboutProject__chart span:nth-child(2) {
-  padding: 9px 14px;
   background-color: var(--dark-accent-color);
 }
 
@@ -101,6 +106,7 @@
     grid-template-columns: 100px 1fr;
   }
   .aboutProject__content-title {
+    height: 44px;
     font-size: 18px;
     margin-bottom: 16px;
   }

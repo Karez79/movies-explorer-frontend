@@ -10,7 +10,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    row-gap: 20px;
 }
 
 .pindown {
@@ -46,14 +45,12 @@
 }
 
 /* tablet */
-@media (1280px < width >= 768px) {
-    .movie__preview {
-        height: 168px;
-    }
+@media (920px >= width > 480px) {
+
 }
 
 /* mobile */
-@media (width < 768px) {
+@media (width <= 480px) {
     .footer {
         font-size: 12px;
     }

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import { useMobileDetect, useTabletDetect } from '../../hooks/useDevice';
 import { ReactComponent as Logo } from '../../images/logo.svg';
 import { ReactComponent as ProfileIcon } from './profile-icon.svg';
@@ -19,11 +19,6 @@ const Header = ({ currentPage }) => {
     if (currentPage === 'main') isLogged = false;
     const [isMobileMenuOpened, setIsMobileMenuOpened] = useState(false);
 
-    useEffect(() => {
-        if (isMobileMenuOpened) document.body.style.overflow = 'hidden'
-        else document.body.style.overflow = '';
-    }, [isMobileMenuOpened]);
-
     const handleToggleMenu = () => setIsMobileMenuOpened(!isMobileMenuOpened);
 
     return (
@@ -37,25 +32,25 @@ const Header = ({ currentPage }) => {
                 }
                 {
                     !showOnGadgets && isLogged &&
-                        <div className={styles.authorization}>
+                        <nav className={styles.authorization}>
                             <Link to="/profile" className={styles.profileButton}>
                                 Аккаунт
                                 <span className={`${styles['profileButton__icon']} centered`}>
                                     <ProfileIcon />
                                 </span>
                             </Link>
-                        </div>
+                        </nav>
                 }
                 {
                     !isLogged ?
-                        <div className={styles.authorization}>
-                            <Link to="/register">Регистрация</Link>
+                        <nav className={styles.authorization}>
+                            <Link to="/signup">Регистрация</Link>
                             <Link
-                                to="/login"
+                                to="/signin"
                                 className={`${styles.signinButton} btn btn--accent`}>
                                 Войти
                             </Link>
-                        </div>
+                        </nav>
                         : showOnGadgets &&
                         <button
                             type='button'
@@ -80,14 +75,17 @@ const Header = ({ currentPage }) => {
                             <HeaderNavigation
                                 handleToggleMenu={handleToggleMenu}
                                 showOnGadgets={showOnGadgets} />
-                            <div className={styles.authorization}>
-                                <Link to="/profile" className={styles.profileButton}>
+                            <nav className={styles.authorization}>
+                                <Link
+                                    to="/profile"
+                                    className={styles.profileButton}
+                                    onClick={handleToggleMenu}>
                                     Аккаунт
                                     <span className={`${styles['profileButton__icon']} centered`}>
                                         <ProfileIcon />
                                     </span>
                                 </Link>
-                            </div>
+                            </nav>
                         </div>
                     </div>
             }

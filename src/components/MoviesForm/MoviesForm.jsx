@@ -13,25 +13,28 @@ const MoviesForm = () => {
   }
 
   return (
-    <div className={`${styles['movies__form-wrapper']} container`}>
+    <section className={`${styles['movies__form-wrapper']} container`}>
       <form
         className={styles.movies__form}
         onSubmit={handleSubmit}>
-        <input
-          type="search"
-          name="movie search"
-          className={styles['movies__form-searchInput']}
-          id="movie-search-input"
-          ref={searchInputRef}
-          placeholder='Фильм' />
-        <button
-          type="submit"
-          className={`${styles['movies__form-submitButton']}`}>
-          <SendFormIcon />
-        </button>
+        <div className={styles['movies__form-field']}>
+          <input
+            type="search"
+            name="movie search"
+            className={styles['movies__form-searchInput']}
+            id="movie-search-input"
+            ref={searchInputRef}
+            required={true}
+            placeholder='Фильм' />
+          <button
+            type="submit"
+            className={`${styles['movies__form-submitButton']}`}>
+            <SendFormIcon />
+          </button>
+        </div>
+        <MoviesFormSwitch />
       </form>
-      <MoviesFormSwitch />
-    </div>
+    </section>
   );
 };
 

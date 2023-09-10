@@ -5,18 +5,29 @@
 
 .movies__form {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+}
 
-  margin-bottom: 32px;
+.movies__form-field {
+  width: 100%;
   padding-bottom: 13px;
+  margin-bottom: 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-grow: 1;
+
   border-bottom: 1px solid #424242;
+}
+
+.movies__form-field:focus-within {
+  border-color: var(--primary-text-color);
 }
 
 .movies__form-searchInput {
   font-size: 28px;
   font-weight: 500;
-  line-height: initial;
   
   flex-grow: 1;
   border: none;
@@ -25,17 +36,19 @@
 
 .movies__form-searchInput::placeholder {
   color: var(--secondary-text-color);
+  opacity: 1;
 }
 
 .movies__form-submitButton {
   font-weight: 500;
 
+  width: 34px;
+  height: 34px;
+
   display: flex;
   justify-content: center;
   align-items: center;
   
-  width: 34px;
-  height: 34px;
   border-radius: 100%;
   background-color: var(--secondary-accent-color);
   cursor: pointer;
@@ -44,6 +57,10 @@
 
 .movies__form-submitButton:hover {
   opacity: 0.7;
+}
+
+.movies__form-submitButton:focus-visible {
+  outline: 2px solid var(--primary-text-color);
 }
 
 .movies__form-submitButton > svg {
@@ -57,6 +74,9 @@
     padding-top: 80px;
     padding-bottom: 60px;
   }
+  .movies__form-field {
+    margin-bottom: 29px;
+  }
 }
 
 /* mobile */
@@ -64,6 +84,10 @@
   .movies__form-wrapper {
     padding-top: 84px;
     padding-bottom: 50px;
+  }
+  .movies__form-field {
+    padding-bottom: 9px;
+    margin-bottom: 40px;
   }
   .movies__form-searchInput {
     font-size: 18px;

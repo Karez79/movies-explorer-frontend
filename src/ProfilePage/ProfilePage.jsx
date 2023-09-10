@@ -24,7 +24,7 @@ const ProfilePage = () => {
       </table>
       <div className={`${styles.profile__actions} centered`}>
         <button type="button" className={`${styles.profile__editButton} btn btn--regular`}>Редактировать</button>
-        <Link to="/login" className={styles.profile__logoutButton}>Выйти из аккаунта</Link>
+        <Link to="/signin" className={styles.profile__logoutButton}>Выйти из аккаунта</Link>
       </div>
     </main>
   );

@@ -1,6 +1,6 @@
 import styles from './Promo.module.css';
 
-const Promo = ({isGadgets, aboutProjectSection}) => {
+const Promo = ({isGadgets, isMobile, isTablet, aboutProjectSection}) => {
   const handleScrollToAboutProjectSection = (event) => {
     event.preventDefault();
     window.scrollTo({
@@ -11,17 +11,34 @@ const Promo = ({isGadgets, aboutProjectSection}) => {
 
   return (
     <section className={styles.promo}>
-      <div className={`${styles.promo__inner} container ${isGadgets ? 'container--sub' : ''}`}>
+      <div className={`${styles.promo__inner} container ${isTablet ? 'container--sub' : isMobile ? 'container--promo' : ''}`}>
         <div className={styles.promo__content}>
-          <h1 className={styles.promo__title}>
-            Учебный проект студента <br className='hideOnMobile'/>
-            факультета <br className='hideOnDevices'/>
-            Веб-разработки.
-          </h1>
-          <p className={styles.promo__text}>
-            Листайте ниже, чтобы узнать больше про этот<br />
-            проект и его создателя.
-          </p>
+          {
+            isMobile ? 
+            <h1 className={styles.promo__title}>
+              Учебный проект <br />
+              студента факультета <br />
+              Веб-разработки.
+            </h1>
+            :
+            <h1 className={styles.promo__title}>
+              Учебный проект студента <br className='hideOnMobile'/>
+              факультета <br className='hideOnDevices'/>
+              Веб-разработки.
+            </h1>
+          }
+          {
+            isMobile ? 
+              <p className={styles.promo__text}>
+                Листайте ниже, чтобы узнать больше <br />
+                про этот проект и его создателя.
+              </p>
+              :
+              <p className={styles.promo__text}>
+                Листайте ниже, чтобы узнать больше про этот <br className='hideOnDevices'/>
+                проект и его создателя.
+              </p>
+          }
           <button
             type="button"
             className={`btn btn--white ${styles.promo__button}`}
@@ -30,7 +47,7 @@ const Promo = ({isGadgets, aboutProjectSection}) => {
           </button>
         </div>
         <div className={styles.promo__image}>
-          <img src="/images/landing-page/promo-planet-optimized.svg" alt="" />
+          <img src="/images/landing-page/promo-planet-optimized.svg" alt="Картинка, на которой изображены надписи WEB. Они образуют слуэт планеты Земля. Возможно, это тест Роршаха, и это силуэт не нашей родной планеты, а гнилого яблока. Как жаль, что вам не дано этого видеть 🙈." />
         </div>
       </div>
     </section>
