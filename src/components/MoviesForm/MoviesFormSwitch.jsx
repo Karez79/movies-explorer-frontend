@@ -1,24 +1,26 @@
-import { useState } from "react";
-import styles from './MoviesFormSwitch.module.css';
+import styles from "./MoviesFormSwitch.module.css";
 
-const MoviesFormSwitch = () => {
-  // По-хорошему, нужно делать через useEffect с таймером, чтобы не ре-рендерить всю страницу,
-  // если пользователь начнёт играть с кнопкой
-  const [isFiltered, setIsFiltered] = useState(true);
+const MoviesFormSwitch = ({
+  handleChangeCheckbox,
+  searchQuery, 
+}) => {
+  const changeChec = () => {
+    handleChangeCheckbox();  
+  };
 
-  // Я бы для удобства пользователей сделал весь блок кликабельным на мобильных
   return (
     <div className={styles.movies__filter}>
       <button
         type="button"
-        onClick={() => setIsFiltered(!isFiltered)}
+        onClick={() => changeChec()}
         className={`
-          ${styles['movies__filter-checkbox']}
-          ${isFiltered ? styles.filtered : ''}
-        `}>
-        <div className={styles['movies__filter-switch']}></div>
+          ${styles["movies__filter-checkbox"]}
+          ${searchQuery.isShortMovie ? styles.filtered : ""}
+        `}
+      >
+        <div className={styles["movies__filter-switch"]}></div>
       </button>
-      <span className={styles['movies__filter-label']}>Короткометражки</span>
+      <span className={styles["movies__filter-label"]}>Короткометражки</span>
     </div>
   );
 };

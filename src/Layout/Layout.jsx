@@ -9,6 +9,7 @@ const Layout = () => {
 
     let location = useLocation();
     let currentPage = location.pathname.substring(1);
+	
     if (currentPage === '') currentPage = 'main';
     let showHeader = currentPage !== '404' &&
         currentPage !== 'signin' &&

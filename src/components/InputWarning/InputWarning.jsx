@@ -1,7 +1,7 @@
-import styles from './InputWarning.module.css';
+import styles from "./InputWarning.module.css";
 
-const InputWarning = () => (
-  <p className={styles['register__form-warning']}>Что-то пошло не так...</p>
+const InputWarning = ({ prop }) => (
+  <p className={styles["register__form-warning"]}>{prop} </p>
 );
 
 export default InputWarning;

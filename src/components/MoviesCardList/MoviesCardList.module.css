@@ -1,31 +1,60 @@
 .movies__cardList {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 32px 20px;
-  padding-top: 70px;
-  padding-bottom: 30px;
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 32px 20px;
+	padding-top: 70px;
+	padding-bottom: 30px;
 }
 
 /* tablet */
-@media (920px >= width >= 480px) {
-  .movies__cardList {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 36px 30px;
-  }
+@media (920px >=width >=480px) {
+	.movies__cardList {
+		grid-template-columns: repeat(2, 1fr);
+		gap: 36px 30px;
+	}
 }
 
 /* mobile */
 @media (width < 480px) {
-  .movies__cardList {
-    grid-template-columns: 1fr;
-    gap: 20px 0;
-    padding-top: 40px;
-    padding-bottom: 30px;
-  }
-  .movies__cardList.container {
-    padding-right: 10px;
-    padding-left: 10px;
-  }
+	.movies__cardList {
+		grid-template-columns: 1fr;
+		gap: 20px 0;
+		padding-top: 40px;
+		padding-bottom: 30px;
+	}
+
+	.movies__cardList.container {
+		padding-right: 10px;
+		padding-left: 10px;
+	}
+}
+
+.loadMoreButton-wrapper {
+	padding-top: 50px;
+	padding-bottom: 80px;
+}
+
+.loadMoreButton {
+	font-size: 12px;
+	line-height: initial;
+
+	flex-grow: 1;
+	max-width: 320px;
+	padding: 10px 60px;
+	border-radius: 6px;
+	border: 1px solid #424242;
+	background-color: transparent;
+}
+
+/* tablet */
+@media (920px >=width > 480px) {}
+
+/* mobile */
+@media (width <=480px) {
+	.loadMoreButton {
+		max-width: 240px;
+		padding: 10px 60px;
+	}
 }
 
 /* sizes="(min-width: 320px) 480px, (max-width: 920px) and (min-width: 480px) 920px, 1280px" */

@@ -1,44 +1,54 @@
-import { useState, useEffect } from 'react';
-import { useDevice } from '../hooks/useDevice';
-import Preloader from '../components/Preloader/Preloader';
-import MoviesForm from '../components/MoviesForm/MoviesForm';
-import SavedMoviesCardList from '../components/MoviesCardList/SavedMoviesCardList';
-import styles from './SavedMoviesPage.module.css';
+import { useState, useEffect } from "react";
+import { useDevice } from "../utils/hooks/useDevice";
+import Preloader from "../components/Preloader/Preloader";
+import MoviesForm from "../components/MoviesForm/MoviesForm";
+import SavedMoviesCardList from "../components/MoviesCardList/SavedMoviesCardList";
+import styles from "./SavedMoviesPage.module.css";
+import { getSavedMoviesApi } from "../utils/MainApi";
+import InputWarning from "../components/InputWarning/InputWarning";
 
 const SavedMoviesPage = () => {
-    const device = useDevice();
-    const [isLoaded, setIsLoaded] = useState(false);
-    // Будет получать значение от количества карточек на странице*.
-    // Страница в данном случае - это максимальное количество выводимых карточек за один раз
-    const [isMoviesCardListCrowded, setIsMoviesCardListCrowded] = useState(false);
+  const device = useDevice();
 
-    // Можно вынести в отдельный хук usePreloader,
-    // который в зависимость будет получать data
-    // data?? timeout = 0;
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setIsLoaded(true);
-        }, 3000);
-        return () => clearTimeout(timer);
-    }, [isLoaded]);
+  const isMoviesCardListCrowded = false;
+  const [preload, setPreload] = useState(true);
 
-    return (
-        !isLoaded ? <Preloader /> :
-        <main className={styles.movies}>
-            <MoviesForm />
-            <SavedMoviesCardList device={device} />
-                <div className={`${styles['loadMoreButton-wrapper']} centered`}>
-                    {   
-                        isMoviesCardListCrowded && 
-                            <button
-                                type="button"
-                                className={`${styles.loadMoreButton} btn`}>
-                                Ещё
-                            </button>
-                    }
-                </div>
-        </main>
-    );
+  const [saveMovies, setSaveMovies] = useState([]);
+  const [nameErr, setNameErr] = useState("");
+
+  useEffect(() => {
+    getSaveMovies();
+  }, []);
+  console.log(saveMovies.length);
+
+  const getSaveMovies = async () => {
+    try {
+      const res = await getSavedMoviesApi();
+      setSaveMovies(res);
+      setPreload(false);
+    } catch (err) {
+      const res = await err.json();
+      setPreload(false);
+      setNameErr(res.message);
+    }
+  };
+
+  return preload ? (
+    <Preloader />
+  ) : (
+    <main className={styles.movies}>
+      <MoviesForm /> 
+      <SavedMoviesCardList device={device} /> 
+      <div className={`${styles["loadMoreButton-wrapper"]} centered`}>
+        {nameErr && <InputWarning prop={nameErr} />}
+        {isMoviesCardListCrowded && (
+          <button type="button" className={`${styles.loadMoreButton} btn`}>
+            Ещё
+          </button>
+        )}
+      </div>
+    </main>
+  );
 };
 
 export default SavedMoviesPage;
