@@ -4,7 +4,7 @@ import MoviesFormSwitch from "./MoviesFormSwitch";
 import styles from "./MoviesForm.module.css";
 import { useLocation } from "react-router-dom";
 
-const MoviesForm = ({ onSubmit, isLoad, setShortState }) => {
+const MoviesForm = ({ onSubmit, isLoad }) => {
   const location = useLocation();
   const [searchQuery, setSearchQuery] = useState({
     searchString: "",
@@ -69,10 +69,12 @@ const MoviesForm = ({ onSubmit, isLoad, setShortState }) => {
             <SendFormIcon />
           </button>
         </div>
-        <MoviesFormSwitch
-          handleChangeCheckbox={handleChangeCheckbox}
-          searchQuery={searchQuery}
-        />
+        {location.pathname !== "/saved-movies" && (
+          <MoviesFormSwitch
+            handleChangeCheckbox={handleChangeCheckbox}
+            searchQuery={searchQuery}
+          />
+        )}
       </form>
     </section>
   );

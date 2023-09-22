@@ -32,7 +32,6 @@ export const CurrentUserContext = ({ children }) => {
   const updateUser = async () => {
     try {
       const res = await checkToken();
-
       const resSavedMovies = await getSavedMoviesApi();
 
       setCurrentUser({
@@ -48,7 +47,6 @@ export const CurrentUserContext = ({ children }) => {
       console.error(res.message);
     }
   };
-
   const signup = async (name, email, password) => {
     try {
       await registerUserApi(email, name, password);
@@ -83,6 +81,7 @@ export const CurrentUserContext = ({ children }) => {
         if (res.token) {
           RemoveCookie();
           SetCookie(res.token);
+          localStorage.setItem("accessToken", res.token);
           console.log("Log success");
         }
         updateUser();
@@ -110,17 +109,30 @@ export const CurrentUserContext = ({ children }) => {
     }
   };
 
-  const onSave = (movie) => {
+  const onSave = async (movie) => {
     try {
-      addtoSavedMovieApi(movie);
-      updateUser();
+      const res = await addtoSavedMovieApi(movie);
+
+      const update = [...currentUser.savedMovies, res];
+      setCurrentUser({
+        name: currentUser.name,
+        email: currentUser.email,
+        error: false,
+        isLogged: true,
+        savedMovies: update || [],
+      });
     } catch (err) {
       console.error(err);
     }
   };
-  const onDelete = (id) => {
+  const onDelete = async (id) => {
     try {
-      deleteMovieApi(id);
+      await deleteMovieApi(id);
+      const delUp = currentUser;
+      delUp.savedMovies = currentUser.savedMovies.filter(
+        (item) => item._id !== id
+      );
+      setCurrentUser(delUp);
     } catch (err) {
       console.error(err);
     }

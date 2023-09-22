@@ -1,35 +1,35 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDevice } from "../utils/hooks/useDevice";
 import Preloader from "../components/Preloader/Preloader";
 import MoviesForm from "../components/MoviesForm/MoviesForm";
-import SavedMoviesCardList from "../components/MoviesCardList/SavedMoviesCardList";
 import styles from "./SavedMoviesPage.module.css";
+import { useSearchFilms } from "../utils/hooks/useSearchFilms";
+import MoviesCardList from "../components/MoviesCardList/MoviesCardList";
 import { getSavedMoviesApi } from "../utils/MainApi";
-import InputWarning from "../components/InputWarning/InputWarning";
 
 const SavedMoviesPage = () => {
   const device = useDevice();
-
-  const isMoviesCardListCrowded = false;
+  const [movies, setMovies] = useState([]);
   const [preload, setPreload] = useState(true);
-
-  const [saveMovies, setSaveMovies] = useState([]);
-  const [nameErr, setNameErr] = useState("");
 
   useEffect(() => {
     getSaveMovies();
   }, []);
-  console.log(saveMovies.length);
+
+  const { sortedMovies, handleSearch } = useSearchFilms({
+    movies: movies,
+    isSavedPage: true,
+    isMoviesPage: false,
+    setPreload,
+  });
 
   const getSaveMovies = async () => {
     try {
       const res = await getSavedMoviesApi();
-      setSaveMovies(res);
       setPreload(false);
+      setMovies(res);
     } catch (err) {
-      const res = await err.json();
-      setPreload(false);
-      setNameErr(res.message);
+      console.error(err);
     }
   };
 
@@ -37,16 +37,14 @@ const SavedMoviesPage = () => {
     <Preloader />
   ) : (
     <main className={styles.movies}>
-      <MoviesForm /> 
-      <SavedMoviesCardList device={device} /> 
-      <div className={`${styles["loadMoreButton-wrapper"]} centered`}>
-        {nameErr && <InputWarning prop={nameErr} />}
-        {isMoviesCardListCrowded && (
-          <button type="button" className={`${styles.loadMoreButton} btn`}>
-            Ещё
-          </button>
-        )}
-      </div>
+      <MoviesForm onSubmit={handleSearch} isLoad={preload} />
+
+      <MoviesCardList
+        device={device}
+        movies={sortedMovies}
+        isLoad={preload}
+        setMovies={setMovies}
+      />
     </main>
   );
 };

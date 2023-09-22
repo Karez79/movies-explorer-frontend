@@ -3,12 +3,11 @@ import { MovieCard } from "../MovieCard/MovieCard";
 import styles from "./MoviesCardList.module.css";
 import Preloader from "../Preloader/Preloader";
 
-const MoviesCardList = ({ device, movies, isLoad }) => {
+const MoviesCardList = ({ device, movies, isLoad, setMovies }) => {
   const [renderCount, setRenderCount] = useState(0);
   const [showMoreFilmsButton, setShowMoreFilmsButton] = useState(true);
   const [isPagginationLoading, setPagginationLoading] = useState(false);
   const [page, setPage] = useState(0);
- 
 
   useEffect(() => {
     const configForFilmsRender = {
@@ -35,15 +34,22 @@ const MoviesCardList = ({ device, movies, isLoad }) => {
       ? setShowMoreFilmsButton(true)
       : setShowMoreFilmsButton(false);
   }, [device, movies, renderCount, page]);
+  const editSort = (id) => setMovies(movies.filter((item) => item._id !== id));
 
   const renderMovies = (renderCount) => {
     if (movies.length > 0) {
       return movies.slice(0, renderCount).map((movie) => {
-        return <MovieCard key={movie.id} movie={movie} page="movies" />;
+        return (
+          <MovieCard
+            key={movie.id || movie._id}
+            movie={movie}
+            editSort={editSort}
+          />
+        );
       });
     }
   };
- 
+
   const handleClickRenderMore = () => {
     setShowMoreFilmsButton(false);
     setPagginationLoading(true);
@@ -60,7 +66,6 @@ const MoviesCardList = ({ device, movies, isLoad }) => {
         device === "mobile" ? "container--promo" : ""
       }`}
     >
-      
       {isLoad ? (
         <Preloader />
       ) : movies.length ? (

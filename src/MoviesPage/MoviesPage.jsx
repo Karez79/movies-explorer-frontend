@@ -19,7 +19,7 @@ const MoviesPage = () => {
 
   const { sortedMovies, handleSearch } = useSearchFilms({
     movies,
-    savedPage: false,
+    isSavedPage: false,
     isMoviesPage: true,
     setPreload,
   });
@@ -33,6 +33,7 @@ const MoviesPage = () => {
       console.error(err);
     }
   };
+  
   return preload ? (
     <Preloader />
   ) : (
