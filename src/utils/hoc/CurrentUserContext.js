@@ -33,6 +33,8 @@ export const CurrentUserContext = ({ children }) => {
     try {
       const res = await checkToken();
       const resSavedMovies = await getSavedMoviesApi();
+      localStorage.setItem("name", res.name);
+      localStorage.setItem("email", res.email);
 
       setCurrentUser({
         name: res.name,
@@ -50,6 +52,11 @@ export const CurrentUserContext = ({ children }) => {
   const signup = async (name, email, password) => {
     try {
       await registerUserApi(email, name, password);
+      localStorage.clear();
+      localStorage.setItem("name", name);
+      localStorage.setItem("email", email);
+      localStorage.setItem("password", password);
+
       signin({ email, password }, async () => {
         navigate("/movies", { replace: true });
       });
@@ -58,13 +65,11 @@ export const CurrentUserContext = ({ children }) => {
       return res.message;
     }
   };
-  const signupdate = (name, email) => {
-    updateUserApi(name, email)
-      .then((res) => {
-        updateUser();
-        return res;
+  const signupdate = async (name, email) => {
+    await updateUserApi(name, email)
+      .then(async () => {
+        await updateUser();
       })
-
       .catch(async (err) => {
         const res = await err.json();
         setCurrentUser({
@@ -102,7 +107,6 @@ export const CurrentUserContext = ({ children }) => {
   const signout = () => {
     try {
       RemoveCookie();
-      localStorage.clear();
       setCurrentUser({ isLogged: false });
     } catch (err) {
       console.error(err);

@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { ReactComponent as Logo } from "../images/logo.svg";
 import InputWarning from "../components/InputWarning/InputWarning";
 import styles from "./RegisterPage.module.css";
@@ -8,6 +8,7 @@ const validator = require("email-validator");
 
 const RegisterPage = () => {
   const { currentUser, signup } = useAuth();
+  const navigate = useNavigate();
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -21,10 +22,13 @@ const RegisterPage = () => {
   const [nameErr, setNameErr] = useState("");
   const [regErr, setRegErr] = useState("");
 
+  useEffect(() => {
+    if (currentUser.isLogged) navigate("/movies");
+  }, [currentUser, navigate]);
+
   function handleNameChange(e) {
     setName((i) => (i = e.target.value));
-	 setIsRegValid(false
-		);
+    setIsRegValid(false);
     if (e.target.value.match(/\d+/)) {
       setIsNameValid(true);
       setNameErr("Имя не должно содержать цифр");
@@ -43,8 +47,8 @@ const RegisterPage = () => {
 
   function handleEmailChange(e) {
     setEmail((i) => (i = e.target.value));
-	 setIsRegValid(false);
-	 
+    setIsRegValid(false);
+
     if (!validator.validate(e.target.value)) {
       setIsEmailValid(true);
       setEmailErr("Некорректный email");
@@ -62,7 +66,7 @@ const RegisterPage = () => {
       const reg = await signup(name, email, pass);
 
       setIsRegValid(true);
-      setRegErr(  reg);
+      setRegErr(reg);
     } else {
       setIsRegValid(true);
       setRegErr("Некорректные данные");
@@ -90,7 +94,7 @@ const RegisterPage = () => {
             type="text"
             name="name"
             id="name-input"
-            required={true}
+            // required={true}
             min={3}
             max={24}
             onChange={handleNameChange}
@@ -108,7 +112,7 @@ const RegisterPage = () => {
             type="email"
             name="email"
             id="email-input"
-            required={true}
+            // required={true}
             onChange={handleEmailChange}
             className={styles["register__form-input"]}
           />
@@ -124,7 +128,7 @@ const RegisterPage = () => {
             type="password"
             name="password"
             id="password-input"
-            required={true}
+            // required={true}
             min={6}
             max={20}
             onChange={handlePassChange}

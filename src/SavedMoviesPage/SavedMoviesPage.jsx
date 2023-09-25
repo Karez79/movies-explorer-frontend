@@ -44,6 +44,7 @@ const SavedMoviesPage = () => {
         movies={sortedMovies}
         isLoad={preload}
         setMovies={setMovies}
+        masMovie={movies}
       />
     </main>
   );

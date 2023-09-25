@@ -6,11 +6,14 @@ import InputWarning from "../components/InputWarning/InputWarning";
 
 const validator = require("email-validator");
 const ProfilePage = () => {
-  const { currentUser, signout, signupdate } = useAuth();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+	const { currentUser, signout, signupdate } = useAuth();
+ 
+
+  const [name, setName] = useState(localStorage.getItem("name") || "");
+  const [email, setEmail] = useState(localStorage.getItem("email") || "");
 
   const [isNameValid, setIsNameValid] = useState(false);
+  const [isNameChange, setIsNameChange] = useState(false);
   const [isEmailValid, setIsEmailValid] = useState(false);
 
   const [emailErr, setEmailErr] = useState("");
@@ -26,10 +29,12 @@ const ProfilePage = () => {
       setNameErr("Имя должно содержать минимум 2 символа");
     } else {
       setIsNameValid(false);
+      setIsNameChange(false);
     }
 
     if (currentUser.name === e.target.value) {
-      setIsNameValid(true);
+      // sdsf
+      setIsNameChange(true);
       setNameErr("Вы уже используете это имя");
     }
   }
@@ -40,22 +45,30 @@ const ProfilePage = () => {
       setIsEmailValid(true);
       setEmailErr("Некорректный email");
     } else {
+      setIsNameChange(false);
       setIsEmailValid(false);
     }
   }
 
   async function handleInfoSubmit(e) {
     e.preventDefault();
-    if (name && email && !isNameValid && !isEmailValid) {
-      signupdate(name, email);
-      setIsNameValid(true);
-      setNameErr(`${name}, Ваши данные успещно изменены`);
+    if (
+      (name || email) &&
+      !isNameValid &&
+      !isEmailValid &&
+      (name !== currentUser.name || email !== currentUser.email)
+    ) {
+      await signupdate(name, email);
+      setIsNameChange(true);
+      setNameErr(`${name}, Ваши данные успешно изменены`);
     }
   }
 
   return (
     <main className={`${styles.profile} container container--profile`}>
-      <h1 className={styles.profile__title}>Привет, {currentUser.name}!</h1>
+      <h1 className={styles.profile__title}>
+        Привет, {localStorage.getItem("name")}!
+      </h1>
       <table className={styles.profile__table}>
         <tbody>
           <tr className={styles["profile__table-row"]}>
@@ -63,9 +76,9 @@ const ProfilePage = () => {
             <td>
               <input
                 className={styles.profile__input}
-                type="text"
-                placeholder={currentUser.name}
+                type="text" 
                 onChange={handleNameChange}
+                value={name}
               />
             </td>
           </tr>
@@ -79,8 +92,7 @@ const ProfilePage = () => {
             <td>
               <input
                 className={styles.profile__input}
-                type="text"
-                placeholder={currentUser.email}
+                type="text" 
                 onChange={handleEmailChange}
                 value={email}
               />
@@ -89,7 +101,7 @@ const ProfilePage = () => {
         </tbody>
       </table>
       <div className={`${styles.profile__err}`}>
-        {isNameValid && <InputWarning prop={nameErr} />}
+        {(isNameValid || isNameChange) && <InputWarning prop={nameErr} />}
       </div>
       <div className={`${styles.profile__err}`}>
         {isEmailValid && <InputWarning prop={emailErr} />}

@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { ReactComponent as Logo } from "../images/logo.svg";
 import InputWarning from "../components/InputWarning/InputWarning";
 import styles from "./LoginPage.module.css";
@@ -11,19 +11,31 @@ const LoginPage = () => {
   const passwordInputRef = useRef(null);
   const navigate = useNavigate();
   const { currentUser, signin } = useAuth();
+  const [emailErr, setEmailErr] = useState(false);
+  const [passErr, setPassErr] = useState(false);
 
   useEffect(() => {
-    emailInputRef.current.value = "swe@as.ru";
+    emailInputRef.current.value = localStorage.getItem("email") || "";
+    passwordInputRef.current.value = localStorage.getItem("password") || "";
   }, []);
+  useEffect(() => {
+    if (currentUser.isLogged) navigate("/movies");
+  }, [currentUser, navigate]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    if (!event.target.email.value) return setEmailErr("Введите email");
+    if (!event.target.password.value) return setPassErr("Введите пароль");
     const user = {
       email: event.target.email.value,
       password: event.target.password.value,
     };
     signin(user, () => navigate("/movies", { replace: true }));
     formRef.current.reset();
+  };
+  const handleChange = () => {
+    setEmailErr(false);
+    setPassErr(false);
   };
 
   return (
@@ -40,6 +52,7 @@ const LoginPage = () => {
         className={styles.register__form}
         ref={formRef}
         onSubmit={handleSubmit}
+        onChange={handleChange}
       >
         <label
           htmlFor="email-input"
@@ -48,14 +61,13 @@ const LoginPage = () => {
         >
           E-mail
           <input
-            type="email"
             name="email"
             id="email-input"
-            required={true}
             ref={emailInputRef}
             placeholder="Виталий"
             className={styles["register__form-input"]}
           />
+          {emailErr && <InputWarning prop={emailErr} />}
         </label>
         <label
           htmlFor="password-input"
@@ -68,12 +80,12 @@ const LoginPage = () => {
             name="password"
             id="password-input"
             ref={passwordInputRef}
-            required={true}
             min={6}
             max={20}
             placeholder="g8429jfweribzc"
             className={styles["register__form-input"]}
           />
+          {passErr && <InputWarning prop={passErr} />}
           {!currentUser.isLogged && (
             <InputWarning prop={currentUser.messageError} />
           )}

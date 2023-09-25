@@ -6,6 +6,8 @@ export function useSearchFilms({
   isSavedPage,
   isMoviesPage,
   setPreload,
+  getMovies,
+  setPage,
 }) {
   const [sortedMovies, setSortedMovies] = useState([]);
   const [searchQueryDate, setSearchQueryDate] = useState({
@@ -32,11 +34,14 @@ export function useSearchFilms({
     }
   }, [isMoviesPage, searchQueryDate]);
 
-  const handleSearch = (searchQuery) => {
+  const handleSearch = async (searchQuery) => {
     if (!sortedMovies.length) setPreload(true);
 
-    const data = createData(movies, searchQuery);
-
+    const data = createData(
+      movies.length === 0 ? await getMovies() : movies,
+      searchQuery
+    );
+    setPage(0);
     setSortedMovies(data);
 
     if (!searchQuery.searchString) {

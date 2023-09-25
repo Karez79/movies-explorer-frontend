@@ -35,8 +35,11 @@ const App = () => {
               </ProtectedRoute>
             }
           />
+
           <Route path="/signup" element={<RegisterPage />} />
+
           <Route path="/signin" element={<LoginPage />} />
+
           <Route
             path="/profile"
             element={

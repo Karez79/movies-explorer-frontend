@@ -3,6 +3,7 @@ import { ReactComponent as SendFormIcon } from "./send-form-icon.svg";
 import MoviesFormSwitch from "./MoviesFormSwitch";
 import styles from "./MoviesForm.module.css";
 import { useLocation } from "react-router-dom";
+import InputWarning from "../../components/InputWarning/InputWarning";
 
 const MoviesForm = ({ onSubmit, isLoad }) => {
   const location = useLocation();
@@ -10,6 +11,7 @@ const MoviesForm = ({ onSubmit, isLoad }) => {
     searchString: "",
     isShortMovie: false,
   });
+  const [searhError, setsearhError] = useState(false);
   useEffect(() => {
     if (
       location.pathname === "/movies" &&
@@ -28,6 +30,7 @@ const MoviesForm = ({ onSubmit, isLoad }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!searchQuery.searchString.trim()) {
+      setsearhError("Нужно ввести ключевое слово");
       return setSearchQuery({ ...searchQuery, searchString: "" });
     }
     onSubmit(searchQuery);
@@ -35,9 +38,11 @@ const MoviesForm = ({ onSubmit, isLoad }) => {
 
   const handleChange = (e) => {
     setSearchQuery({ ...searchQuery, searchString: e.target.value });
+    setsearhError(false);
   };
 
   const handleChangeCheckbox = () => {
+    setsearhError(false);
     if (!searchQuery.searchString.trim()) {
       return setSearchQuery({ ...searchQuery, searchString: "" });
     }
@@ -57,7 +62,6 @@ const MoviesForm = ({ onSubmit, isLoad }) => {
             className={styles["movies__form-searchInput"]}
             id="movie-search-input"
             value={searchQuery.searchString}
-            required={true}
             placeholder="Фильм"
             disabled={isLoad}
             onChange={handleChange}
@@ -69,12 +73,14 @@ const MoviesForm = ({ onSubmit, isLoad }) => {
             <SendFormIcon />
           </button>
         </div>
+
         {location.pathname !== "/saved-movies" && (
           <MoviesFormSwitch
             handleChangeCheckbox={handleChangeCheckbox}
             searchQuery={searchQuery}
           />
         )}
+        {searhError && <InputWarning prop={searhError} />}
       </form>
     </section>
   );

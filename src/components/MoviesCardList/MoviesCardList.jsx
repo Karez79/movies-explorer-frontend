@@ -1,13 +1,19 @@
 import { useEffect, useState } from "react";
 import { MovieCard } from "../MovieCard/MovieCard";
 import styles from "./MoviesCardList.module.css";
-import Preloader from "../Preloader/Preloader";
+import { useLocation } from "react-router-dom";
 
-const MoviesCardList = ({ device, movies, isLoad, setMovies }) => {
+const MoviesCardList = ({
+  device,
+  movies,
+  setMovies,
+  masMovie,
+  page,
+  setPage,
+}) => {
+  const location = useLocation();
   const [renderCount, setRenderCount] = useState(0);
   const [showMoreFilmsButton, setShowMoreFilmsButton] = useState(true);
-  const [isPagginationLoading, setPagginationLoading] = useState(false);
-  const [page, setPage] = useState(0);
 
   useEffect(() => {
     const configForFilmsRender = {
@@ -50,15 +56,22 @@ const MoviesCardList = ({ device, movies, isLoad, setMovies }) => {
     }
   };
 
-  const handleClickRenderMore = () => {
-    setShowMoreFilmsButton(false);
-    setPagginationLoading(true);
+  const renderSaveMovies = () => {
+    if (movies.length > 0) {
+      return movies.map((movie) => {
+        return (
+          <MovieCard
+            key={movie.id || movie._id}
+            movie={movie}
+            editSort={editSort}
+          />
+        );
+      });
+    }
+  };
 
-    setTimeout(() => {
-      setShowMoreFilmsButton(true);
-      setPagginationLoading(false);
-      setPage((prev) => prev + 1);
-    }, 200);
+  const handleClickRenderMore = () => {
+    setPage((prev) => prev + 1);
   };
   return (
     <section
@@ -66,15 +79,20 @@ const MoviesCardList = ({ device, movies, isLoad, setMovies }) => {
         device === "mobile" ? "container--promo" : ""
       }`}
     >
-      {isLoad ? (
-        <Preloader />
-      ) : movies.length ? (
-        renderMovies(renderCount)
-      ) : (
-        <h2>Фильмов не найдено!</h2>
-      )}
+      {/* {movies.length && location.pathname === "/movies"
+        ? renderMovies(renderCount)
+        : masMovie.length !== 0 && <h2>Фильмов не найдено!</h2>}
+		 */}
+      {location.pathname === "/movies"
+        ? movies.length && location.pathname === "/movies"
+          ? renderMovies(renderCount)
+          : masMovie.length !== 0 && <h2>Фильмов не найдено!</h2>
+        : movies.length
+        ? renderSaveMovies()
+        : masMovie.length !== 0 && <h2>Фильмов не найдено!</h2>}
+
       <div className={`${styles["loadMoreButton-wrapper"]} centered`}>
-        {showMoreFilmsButton && (
+        {showMoreFilmsButton && location.pathname === "/movies" && (
           <button
             type="button"
             className={`${styles.loadMoreButton} btn`}
@@ -83,7 +101,6 @@ const MoviesCardList = ({ device, movies, isLoad, setMovies }) => {
             Ещё
           </button>
         )}
-        {isPagginationLoading && <Preloader />}
       </div>
     </section>
   );
