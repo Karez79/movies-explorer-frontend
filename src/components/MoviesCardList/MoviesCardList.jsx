@@ -2,6 +2,11 @@ import { useEffect, useState } from "react";
 import { MovieCard } from "../MovieCard/MovieCard";
 import styles from "./MoviesCardList.module.css";
 import { useLocation } from "react-router-dom";
+import {
+  DESKTOP_RENDER,
+  MOBILE_RENDER,
+  TABLET_RENDER,
+} from "../../utils/const";
 
 const MoviesCardList = ({
   device,
@@ -17,18 +22,9 @@ const MoviesCardList = ({
 
   useEffect(() => {
     const configForFilmsRender = {
-      desktop: {
-        renderCount: 16,
-        additionalRender: 4,
-      },
-      tablet: {
-        renderCount: 8,
-        additionalRender: 2,
-      },
-      mobile: {
-        renderCount: 5,
-        additionalRender: 2,
-      },
+      desktop: DESKTOP_RENDER,
+      tablet: TABLET_RENDER,
+      mobile: MOBILE_RENDER,
     };
 
     setRenderCount(
@@ -79,10 +75,6 @@ const MoviesCardList = ({
         device === "mobile" ? "container--promo" : ""
       }`}
     >
-      {/* {movies.length && location.pathname === "/movies"
-        ? renderMovies(renderCount)
-        : masMovie.length !== 0 && <h2>Фильмов не найдено!</h2>}
-		 */}
       {location.pathname === "/movies"
         ? movies.length && location.pathname === "/movies"
           ? renderMovies(renderCount)

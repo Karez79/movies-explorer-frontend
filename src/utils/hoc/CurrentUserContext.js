@@ -52,7 +52,9 @@ export const CurrentUserContext = ({ children }) => {
   const signup = async (name, email, password) => {
     try {
       await registerUserApi(email, name, password);
+      // Очистка всех данных при регистрации нового пользователя
       localStorage.clear();
+
       localStorage.setItem("name", name);
       localStorage.setItem("email", email);
       localStorage.setItem("password", password);
@@ -107,6 +109,9 @@ export const CurrentUserContext = ({ children }) => {
   const signout = () => {
     try {
       RemoveCookie();
+      // Очистка истории поиска
+      localStorage.removeItem("searchQueryDate");
+
       setCurrentUser({ isLogged: false });
     } catch (err) {
       console.error(err);

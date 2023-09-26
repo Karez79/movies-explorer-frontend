@@ -1,43 +1,51 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useRef, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ReactComponent as Logo } from "../images/logo.svg";
 import InputWarning from "../components/InputWarning/InputWarning";
 import styles from "./LoginPage.module.css";
 import { useAuth } from "../utils/hooks/useAuth";
+const validator = require("email-validator");
 
 const LoginPage = () => {
-  const formRef = useRef(null);
-  const emailInputRef = useRef(null);
-  const passwordInputRef = useRef(null);
   const navigate = useNavigate();
   const { currentUser, signin } = useAuth();
   const [emailErr, setEmailErr] = useState(false);
+  const [isEmailValid, setIsEmailValid] = useState(false);
   const [passErr, setPassErr] = useState(false);
 
-  useEffect(() => {
-    emailInputRef.current.value = localStorage.getItem("email") || "";
-    passwordInputRef.current.value = localStorage.getItem("password") || "";
-  }, []);
+  const [email, setEmail] = useState(localStorage.getItem("email") || "");
+  const [pass, setPass] = useState(localStorage.getItem("password") || "");
+
   useEffect(() => {
     if (currentUser.isLogged) navigate("/movies");
   }, [currentUser, navigate]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (!event.target.email.value) return setEmailErr("Введите email");
-    if (!event.target.password.value) return setPassErr("Введите пароль");
+    setEmail(event.target.email.value);
+    setPass(event.target.password.value);
+
     const user = {
       email: event.target.email.value,
       password: event.target.password.value,
     };
     signin(user, () => navigate("/movies", { replace: true }));
-    formRef.current.reset();
-  };
-  const handleChange = () => {
-    setEmailErr(false);
-    setPassErr(false);
   };
 
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+
+    if (!validator.validate(event.target.value)) {
+      setIsEmailValid(true);
+      setEmailErr("Некорректный email");
+    } else {
+      setIsEmailValid(false);
+    }
+  };
+  const handlePassChange = (event) => {
+    setPass(event.target.value);
+    setPassErr(false);
+  };
   return (
     <main
       className={`${styles.register} centered container container--register`}
@@ -48,12 +56,7 @@ const LoginPage = () => {
         </Link>
         <h1 className={styles.header__title}>Рады видеть!</h1>
       </div>
-      <form
-        className={styles.register__form}
-        ref={formRef}
-        onSubmit={handleSubmit}
-        onChange={handleChange}
-      >
+      <form className={styles.register__form} onSubmit={handleSubmit}>
         <label
           htmlFor="email-input"
           className={styles["register__form-label"]}
@@ -63,11 +66,12 @@ const LoginPage = () => {
           <input
             name="email"
             id="email-input"
-            ref={emailInputRef}
+            value={email}
             placeholder="Виталий"
+            onChange={handleEmailChange}
             className={styles["register__form-input"]}
           />
-          {emailErr && <InputWarning prop={emailErr} />}
+          {isEmailValid && <InputWarning prop={emailErr} />}
         </label>
         <label
           htmlFor="password-input"
@@ -79,10 +83,11 @@ const LoginPage = () => {
             type="password"
             name="password"
             id="password-input"
-            ref={passwordInputRef}
+            value={pass}
             min={6}
             max={20}
             placeholder="g8429jfweribzc"
+            onChange={handlePassChange}
             className={styles["register__form-input"]}
           />
           {passErr && <InputWarning prop={passErr} />}
@@ -90,10 +95,13 @@ const LoginPage = () => {
             <InputWarning prop={currentUser.messageError} />
           )}
         </label>
-        <button type="submit" className={styles["register__form-submitButton"]}>
+        <button
+          type="submit"
+          className={styles["register__form-submitButton"]}
+          disabled={!email || !pass || isEmailValid}
+        >
           Войти
         </button>
-        {/* Можно вынести в отдельный компонент и в зависимости от модификатора\страницы выводить разные данные */}
         <p className={styles["register__form-login"]}>
           Ещё не зарегистрированы?
           <Link to="/signup" className={styles["register__form-loginButton"]}>

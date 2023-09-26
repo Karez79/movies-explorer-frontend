@@ -29,9 +29,9 @@ const RegisterPage = () => {
   function handleNameChange(e) {
     setName((i) => (i = e.target.value));
     setIsRegValid(false);
-    if (e.target.value.match(/\d+/)) {
+    if (!e.target.value.match(/^[а-яА-ЯёЁa-zA-Z -]+$/)) {
       setIsNameValid(true);
-      setNameErr("Имя не должно содержать цифр");
+      setNameErr("Имя не должно содержать недопустимых символов");
     } else if (e.target.value.length < 2) {
       setIsNameValid(true);
       setNameErr("Имя должно содержать минимум 2 символа");
@@ -94,7 +94,6 @@ const RegisterPage = () => {
             type="text"
             name="name"
             id="name-input"
-            // required={true}
             min={3}
             max={24}
             onChange={handleNameChange}
@@ -112,7 +111,6 @@ const RegisterPage = () => {
             type="email"
             name="email"
             id="email-input"
-            // required={true}
             onChange={handleEmailChange}
             className={styles["register__form-input"]}
           />
@@ -128,7 +126,6 @@ const RegisterPage = () => {
             type="password"
             name="password"
             id="password-input"
-            // required={true}
             min={6}
             max={20}
             onChange={handlePassChange}
@@ -140,6 +137,7 @@ const RegisterPage = () => {
           type="submit"
           className={styles["register__form-submitButton"]}
           onClick={regSubmit}
+          disabled={!(name && email && pass && !isNameValid && !isEmailValid)}
         >
           Зарегистрироваться
         </button>

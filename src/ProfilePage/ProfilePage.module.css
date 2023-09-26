@@ -34,7 +34,7 @@
 
 .profile__err {
 	margin: 0 auto;
-	color: #c51919; 
+	color: #c51919;
 	font-size: 1rem;
 }
 
@@ -61,6 +61,7 @@ tr:not(:last-child) {
 }
 
 th {
+	padding-top: 5px;
 	font-size: 11px;
 	font-weight: 500;
 	text-align: left;
@@ -79,6 +80,35 @@ td {
 	padding-top: 50px;
 	margin-top: auto;
 }
+
+.profile__saveButton {
+	font-size: 12px;
+	padding: 15px;
+	margin-bottom: 14px;
+	margin-top: auto;
+	font-weight: 500;
+	letter-spacing: 0.04em;
+	color: inherit;
+	cursor: pointer;
+	border-radius: 3px;
+	background-color: var(--secondary-accent-color);
+	transition: opacity 0.3s ease-in-out;
+
+}
+
+
+.profile__saveButton:hover,
+.profile__saveButton:focus-visible {
+	opacity: 0.7;
+
+}
+
+.profile__saveButton:disabled {
+	background-color: var(--dark-accent-color);
+	cursor: default;
+}
+
+
 
 .profile__logoutButton {
 	color: var(--warning-color);

@@ -1,3 +1,5 @@
+import { DURATION } from "./const";
+
 export const createData = (data, request) => {
   const { searchString, isShortMovie } = request;
   const regExpForNonWordSymbols = /[!,.\-'";:`{}(%«»]/g;
@@ -6,18 +8,24 @@ export const createData = (data, request) => {
       (movie) =>
         movie.nameRU
           .trim()
-          .replace(regExpForNonWordSymbols, '')
+          .replace(regExpForNonWordSymbols, "")
           .toLowerCase()
-          .includes(searchString.trim().replace(regExpForNonWordSymbols, '').toLowerCase()) &&
-        movie.duration <= 40,
+          .includes(
+            searchString
+              .trim()
+              .replace(regExpForNonWordSymbols, "")
+              .toLowerCase()
+          ) && movie.duration <= DURATION
     );
   } else {
     return data.filter((movie) =>
       movie.nameRU
         .trim()
-        .replace(regExpForNonWordSymbols, '')
+        .replace(regExpForNonWordSymbols, "")
         .toLowerCase()
-        .includes(searchString.trim().replace(regExpForNonWordSymbols, '').toLowerCase()),
+        .includes(
+          searchString.trim().replace(regExpForNonWordSymbols, "").toLowerCase()
+        )
     );
   }
 };

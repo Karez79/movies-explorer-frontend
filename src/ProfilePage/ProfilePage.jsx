@@ -6,8 +6,7 @@ import InputWarning from "../components/InputWarning/InputWarning";
 
 const validator = require("email-validator");
 const ProfilePage = () => {
-	const { currentUser, signout, signupdate } = useAuth();
- 
+  const { currentUser, signout, signupdate } = useAuth();
 
   const [name, setName] = useState(localStorage.getItem("name") || "");
   const [email, setEmail] = useState(localStorage.getItem("email") || "");
@@ -19,23 +18,19 @@ const ProfilePage = () => {
   const [emailErr, setEmailErr] = useState("");
   const [nameErr, setNameErr] = useState("");
 
+  const [disabl, setDisabl] = useState(true);
+
   function handleNameChange(e) {
     setName((i) => (i = e.target.value));
-    if (e.target.value.match(/\d+/)) {
+    if (!e.target.value.match(/^[а-яА-ЯёЁa-zA-Z -]+$/)) {
       setIsNameValid(true);
-      setNameErr("Имя не должно содержать цифр");
+      setNameErr("Имя не должно содержать недопустимых символов");
     } else if (e.target.value.length < 2) {
       setIsNameValid(true);
       setNameErr("Имя должно содержать минимум 2 символа");
     } else {
       setIsNameValid(false);
       setIsNameChange(false);
-    }
-
-    if (currentUser.name === e.target.value) {
-      // sdsf
-      setIsNameChange(true);
-      setNameErr("Вы уже используете это имя");
     }
   }
 
@@ -76,12 +71,17 @@ const ProfilePage = () => {
             <td>
               <input
                 className={styles.profile__input}
-                type="text" 
+                type="text"
                 onChange={handleNameChange}
                 value={name}
+                disabled={disabl}
               />
             </td>
           </tr>
+          <th colspan="2">
+            {(isNameValid || isNameChange) && <InputWarning prop={nameErr} />}
+          </th>
+
           <tr
             className={`
             ${styles["profile__table-row"]}
@@ -92,29 +92,46 @@ const ProfilePage = () => {
             <td>
               <input
                 className={styles.profile__input}
-                type="text" 
+                type="text"
                 onChange={handleEmailChange}
                 value={email}
+                disabled={disabl}
               />
             </td>
           </tr>
+          <th colspan="2">
+            {isEmailValid && <InputWarning prop={emailErr} />}
+          </th>
         </tbody>
       </table>
-      <div className={`${styles.profile__err}`}>
-        {(isNameValid || isNameChange) && <InputWarning prop={nameErr} />}
-      </div>
-      <div className={`${styles.profile__err}`}>
-        {isEmailValid && <InputWarning prop={emailErr} />}
-      </div>
 
       <div className={`${styles.profile__actions} centered`}>
-        <button
-          type="button"
-          onClick={handleInfoSubmit}
-          className={`${styles.profile__editButton} btn btn--regular`}
-        >
-          Редактировать
-        </button>
+        {disabl && (
+          <button
+            type="button"
+            onClick={() => setDisabl(false)}
+            className={`${styles.profile__editButton} btn btn--regular`}
+          >
+            Редактировать
+          </button>
+        )}
+        {!disabl && (
+          <button
+            type="button"
+            onClick={handleInfoSubmit}
+            className={`${styles.profile__saveButton}  `}
+            disabled={
+              !(
+                (currentUser.name !== name || currentUser.email !== email) &&
+                !isNameValid &&
+                !isEmailValid
+              )
+            }
+          >
+            Сохранить
+          </button>
+        )}
+
         <Link
           to="/"
           className={styles.profile__logoutButton}
